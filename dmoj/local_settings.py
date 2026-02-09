@@ -72,7 +72,7 @@ EVENT_DAEMON_USE = True
 EVENT_DAEMON_POST = 'ws://vnoi-wsevent:15101/' if IN_DOCKER else 'ws://127.0.0.1:15101/'
 EVENT_DAEMON_GET = 'ws://localhost:15100/'
 EVENT_DAEMON_POLL = 'http://localhost:15102/channels/'
-EVENT_DAEMON_SUBMISSION_KEY = os.environ.get('JUDGE_KEY', 'change_me_judge_key')
+EVENT_DAEMON_SUBMISSION_KEY = os.environ.get('JUDGE_KEY', 'default_judge_key')
 
 LOGGING = {
     'version': 1,
