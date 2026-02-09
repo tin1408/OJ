@@ -801,7 +801,24 @@ ACE_DEFAULT_DARK_THEME = DMOJ_THEME_DEFAULT_ACE_THEME['dark']
 OAUTH_ONLY = False
 
 try:
-    with open(os.path.join(os.path.dirname(__file__), 'local_settings.py')) as f:
+    local_settings_path = os.path.join(os.path.dirname(__file__), 'local_settings.py')
+    with open(local_settings_path) as f:
         exec(f.read(), globals())
-except IOError:
-    pass
+    print(f"Loaded local_settings from {local_settings_path}")
+except IOError as e:
+    print(f"Failed to load local_settings from {local_settings_path}: {e}")
+except Exception as e:
+    print(f"Error executing local_settings: {e}")
+
+# Ensure critical settings are present
+if not hasattr(globals(), 'STATIC_ROOT'):
+    STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+
+if not hasattr(globals(), 'COMPRESS_ROOT'):
+    COMPRESS_ROOT = STATIC_ROOT
+
+if not hasattr(globals(), 'COMPRESS_ENABLED'):
+    COMPRESS_ENABLED = True
+
+if not hasattr(globals(), 'COMPRESS_OFFLINE'):
+    COMPRESS_OFFLINE = True
