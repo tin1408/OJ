@@ -45,3 +45,8 @@ celerybeat-schedule.*
 resources/blog-modern.css
 resources/blog-post.css
 resources/theme-toggle.css
+
+vnoi_data/
+judge.yml
+server.log
+.venv/

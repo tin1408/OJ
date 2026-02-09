@@ -1,0 +1,90 @@
+services:
+  vnoi-db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_DATABASE: dmoj
+      MARIADB_USER: dmoj
+      MARIADB_PASSWORD: vnoj_pass_123
+      MARIADB_ROOT_PASSWORD: root_pass_123
+    volumes:
+      - vnoi-db-data:/var/lib/mysql
+
+  vnoi-redis:
+    image: redis:7
+
+  vnoi-web:
+    build: .
+    volumes:
+      - .:/app
+      - ../vnoi_data:/app/data
+    environment:
+      - IN_DOCKER=true
+      - INIT_VNOJ=true
+      - DJANGO_SETTINGS_MODULE=dmoj.settings
+    depends_on:
+      - vnoi-db
+      - vnoi-redis
+    ports:
+      - "8001:8000"
+
+  vnoi-bridged:
+    build: .
+    command: python manage.py runbridged
+    volumes:
+      - .:/app
+      - ../vnoi_data:/app/data
+    environment:
+      - IN_DOCKER=true
+      - IS_BRIDGED=true
+      - INIT_VNOJ=false
+      - DJANGO_SETTINGS_MODULE=dmoj.settings
+    depends_on:
+      - vnoi-db
+      - vnoi-redis
+    ports:
+      - "9998:9998"
+      - "9999:9999"
+
+  vnoi-celery:
+    build: .
+    command: celery -A dmoj worker -l info --concurrency=2
+    volumes:
+      - .:/app
+      - ../vnoi_data:/app/data
+    environment:
+      - IN_DOCKER=true
+      - INIT_VNOJ=false
+      - DJANGO_SETTINGS_MODULE=dmoj.settings
+    depends_on:
+      - vnoi-db
+      - vnoi-redis
+
+  vnoi-wsevent:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "npm install && node websocket/daemon.js"
+    environment:
+      - GET_PORT=15100
+      - POST_PORT=15101
+      - HTTP_PORT=15102
+    ports:
+      - "15100:15100"
+      - "15101:15101"
+      - "15102:15102"
+
+
+  vnoi-judge:
+    image: vnoj/judge-tiervnoj:latest
+    command: run -p 9999 -c /judge.yml vnoi-bridged default_judge default_judge_key
+    privileged: true
+    volumes:
+      - ../vnoi_data:/app/data
+      - ./judge.yml:/judge.yml
+    depends_on:
+      - vnoi-bridged
+
+volumes:
+  vnoi-db-data:
+  vnoi-data:
