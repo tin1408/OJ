@@ -10,6 +10,16 @@ services:
       - vnoi-db-data:/var/lib/mysql
     command: --skip-name-resolve
 
+  vnoi-nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ../vnoi_data:/app/data
+    depends_on:
+      - vnoi-web
+
   vnoi-redis:
     image: redis:7
 
