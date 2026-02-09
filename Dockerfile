@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
     gettext \
     curl \
     pkg-config \
-    libmariadb-dev-compat \
-    libmariadb-dev \
+    default-libmysqlclient-dev \
+    build-essential \
     netcat-traditional \
     && rm -rf /var/lib/apt/lists/*
 
