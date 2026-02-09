@@ -34,7 +34,6 @@ language_voj.json
 /static
 backup*.json
 custom_script_*
-websocket/config.js
 node_modules/
 db.json
 tmp.sh
@@ -47,6 +46,5 @@ resources/blog-post.css
 resources/theme-toggle.css
 
 vnoi_data/
-judge.yml
 server.log
 .venv/

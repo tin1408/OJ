@@ -1,0 +1,12 @@
+const config = {
+    get_host: "0.0.0.0",
+    get_port: process.env.GET_PORT || 15100,
+    post_host: "0.0.0.0",
+    post_port: process.env.POST_PORT || 15101,
+    http_host: "0.0.0.0",
+    http_port: process.env.HTTP_PORT || 15102,
+    long_poll_timeout: 29000,
+    secret: process.env.JUDGE_KEY || "change_me_judge_key",
+};
+
+module.exports = config;

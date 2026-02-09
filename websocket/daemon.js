@@ -6,11 +6,11 @@
  * @typedef {import("./types.js").ServerResponseExtended} ServerResponseExtended
  * @typedef {import("./types.js").WebSocketRawExtended} WebSocketRawExtended
  */
-import { createServer } from "http";
-import { WebSocketServer } from "ws";
+const { createServer } = require("http");
+const { WebSocketServer } = require("ws");
 
-import config from "./config.js";
-import { Queue } from "./queue.js";
+const config = require("./config.js");
+const { Queue } = require("./queue.js");
 
 const wssReceiver = new WebSocketServer({
   host: config.get_host,

@@ -73,6 +73,7 @@ services:
       - ../vnoi_data:/app/data
     environment:
       - IN_DOCKER=true
+      - C_FORCE_ROOT=1
       - INIT_VNOJ=false
       - DJANGO_SETTINGS_MODULE=dmoj.settings
       - DB_PASSWORD=${DB_PASSWORD:-vnoj_pass_123}
