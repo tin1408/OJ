@@ -101,7 +101,7 @@ services:
 
   vnoi-judge:
     image: vnoj/judge-tiervnoj:latest
-    command: sh -c "run -p 9999 -c /judge.yml vnoi-bridged default_judge ${JUDGE_KEY:-default_judge_key}"
+    command: run -p 9999 -c /judge.yml vnoi-bridged default_judge ${JUDGE_KEY:-default_judge_key}
     privileged: true
     volumes:
       - ../vnoi_data:/app/data
