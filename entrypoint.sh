@@ -16,6 +16,7 @@ if [ "$INIT_VNOJ" = "true" ]; then
   # Load initial data
   python manage.py loaddata navbar
   python manage.py loaddata language_small
+  python manage.py shell < init_data.py
 
   # Compile assets
   ./make_style.sh
