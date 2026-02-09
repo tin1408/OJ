@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Server via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd oj
+          
+          # 1. Pull latest code
+          git pull origin master
+          
+          # 2. Rebuild and restart containers
+          # Pass secrets as environment variables
+          export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+          export SECRET_KEY="${{ secrets.SECRET_KEY }}"
+          export JUDGE_KEY="${{ secrets.JUDGE_KEY }}"
+          
+          # Ensure docker-compose uses these variables
+          docker-compose up -d --build
+          
+          # 3. Run migrations and collect static files
+          docker-compose exec -T vnoi-web python manage.py migrate
+          docker-compose exec -T vnoi-web python manage.py collectstatic --noinput
