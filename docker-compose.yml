@@ -30,6 +30,7 @@ services:
       - ../vnoi_data:/app/data
     environment:
       - IN_DOCKER=true
+      - ALLOWED_HOSTS=*
       - INIT_VNOJ=true
       - DJANGO_SETTINGS_MODULE=dmoj.settings
       - DB_PASSWORD=${DB_PASSWORD:-vnoj_pass_123}
@@ -50,6 +51,7 @@ services:
     environment:
       - IN_DOCKER=true
       - IS_BRIDGED=true
+      - ALLOWED_HOSTS=*
       - PYTHONUNBUFFERED=1
       - INIT_VNOJ=false
       - DJANGO_SETTINGS_MODULE=dmoj.settings

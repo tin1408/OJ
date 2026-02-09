@@ -6,6 +6,8 @@ DB_HOST = 'vnoi-db' if IN_DOCKER else '127.0.0.1'
 REDIS_HOST = 'vnoi-redis' if IN_DOCKER else '127.0.0.1'
 DATA_DIR = '/app/data' if IN_DOCKER else '/Users/tinduong/Documents/interich/cham_online/vnoi_data'
 
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
 SECRET_KEY = os.environ.get('SECRET_KEY', 'change_me_to_a_random_secret_key')
 
 # Database
