@@ -9,4 +9,4 @@ const config = {
     secret: process.env.JUDGE_KEY || "change_me_judge_key",
 };
 
-module.exports = config;
+export default config;
