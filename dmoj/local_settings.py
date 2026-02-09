@@ -71,3 +71,36 @@ EVENT_DAEMON_POST = 'ws://vnoi-wsevent:15101/' if IN_DOCKER else 'ws://127.0.0.1
 EVENT_DAEMON_GET = 'ws://localhost:15100/'
 EVENT_DAEMON_POLL = 'http://localhost:15102/channels/'
 EVENT_DAEMON_SUBMISSION_KEY = os.environ.get('JUDGE_KEY', 'change_me_judge_key')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'judge.bridge': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
+

@@ -40,6 +40,7 @@ services:
     environment:
       - IN_DOCKER=true
       - IS_BRIDGED=true
+      - PYTHONUNBUFFERED=1
       - INIT_VNOJ=false
       - DJANGO_SETTINGS_MODULE=dmoj.settings
       - DB_PASSWORD=${DB_PASSWORD:-vnoj_pass_123}
