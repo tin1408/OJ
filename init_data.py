@@ -3,8 +3,11 @@ import django
 from django.contrib.auth import get_user_model
 from judge.models import Judge
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dmoj.settings')
-django.setup()
+# When run via 'manage.py shell < init_data.py', django is already setup.
+# But keeping these for safety if run directly.
+if not os.environ.get('DJANGO_SETTINGS_MODULE'):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dmoj.settings')
+    django.setup()
 
 User = get_user_model()
 
@@ -17,8 +20,9 @@ def create_admin():
         print("Admin user already exists.")
 
 def create_judge():
+    # Use environment variable if available, otherwise fallback to default
     judge_name = "default_judge"
-    judge_key = "default_judge_key"
+    judge_key = os.environ.get('JUDGE_KEY', 'default_judge_key')
     
     judge, created = Judge.objects.get_or_create(
         name=judge_name,
@@ -30,15 +34,15 @@ def create_judge():
     )
     
     if created:
-        print(f"Judge '{judge_name}' created.")
+        print(f"Judge '{judge_name}' created with key: {judge_key}")
     else:
         if judge.auth_key != judge_key:
             judge.auth_key = judge_key
             judge.save()
-            print(f"Judge '{judge_name}' key updated.")
+            print(f"Judge '{judge_name}' key updated to: {judge_key}")
         else:
-            print(f"Judge '{judge_name}' already exists and is up to date.")
+            print(f"Judge '{judge_name}' already exists and key is correct.")
 
-if __name__ == '__main__':
-    create_admin()
-    create_judge()
+# Run the functions
+create_admin()
+create_judge()
