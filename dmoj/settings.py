@@ -811,14 +811,15 @@ except Exception as e:
     print(f"Error executing local_settings: {e}")
 
 # Ensure critical settings are present
-if not hasattr(globals(), 'STATIC_ROOT'):
+# Ensure critical settings are present
+if 'STATIC_ROOT' not in globals():
     STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
-if not hasattr(globals(), 'COMPRESS_ROOT'):
+if 'COMPRESS_ROOT' not in globals():
     COMPRESS_ROOT = STATIC_ROOT
 
-if not hasattr(globals(), 'COMPRESS_ENABLED'):
+if 'COMPRESS_ENABLED' not in globals():
     COMPRESS_ENABLED = True
 
-if not hasattr(globals(), 'COMPRESS_OFFLINE'):
+if 'COMPRESS_OFFLINE' not in globals():
     COMPRESS_OFFLINE = True
