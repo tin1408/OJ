@@ -41,6 +41,7 @@ services:
       - vnoi-redis
     ports:
       - "8001:8000"
+    command: python manage.py runserver 0.0.0.0:8000
 
   vnoi-bridged:
     build: .
