@@ -18,11 +18,16 @@ if [ "$INIT_VNOJ" = "true" ]; then
   python manage.py loaddata language_small
   python manage.py shell < init_data.py
 
-  # Compile assets
-  ./make_style.sh
-  python manage.py collectstatic --no-input
-  python manage.py compilemessages
-  python manage.py compilejsi18n
+  # Compile assets only if not present (speeds up restart)
+  if [ ! -d "/app/data/collected_static/admin" ]; then
+      echo "Compiling assets (this may take a while)..."
+      ./make_style.sh
+      python manage.py collectstatic --no-input
+      python manage.py compilemessages
+      python manage.py compilejsi18n
+  else
+      echo "Assets already compiled, skipping..."
+  fi
 else
   # Still good to wait for a bit to let vnoi-web finish if it's running
   echo "Skipping initialization, waiting for vnoi-web..."
