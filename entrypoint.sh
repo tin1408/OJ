@@ -25,8 +25,15 @@ if [ "$INIT_VNOJ" = "true" ]; then
       python manage.py collectstatic --no-input
       python manage.py compilemessages
       python manage.py compilejsi18n
+      python manage.py compress
   else
       echo "Assets already compiled, skipping..."
+  fi
+  
+  # Always ensure compression manifest exists
+  if [ ! -f "/app/data/collected_static/CACHE/manifest.json" ]; then
+      echo "Compression manifest missing, running compress..."
+      python manage.py compress
   fi
 else
   # Still good to wait for a bit to let vnoi-web finish if it's running
