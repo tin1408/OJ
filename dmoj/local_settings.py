@@ -46,7 +46,7 @@ MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 STATIC_ROOT = os.path.join(DATA_DIR, 'collected_static')
 COMPRESS_ROOT = STATIC_ROOT
 COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = True
+COMPRESS_OFFLINE = False
 
 STATICFILES_DIRS = [
     os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources'),
